@@ -6,3 +6,6 @@ This the the minimal JavaScript needed to get a viewer running, in only 60~ line
 - Replace the token and urn with your own at line 16 and 17
 - To run on local server with a Mac, go to the directory of where you save this file with terminal and type `$ python -m SimpleHTTPServer`
 - Go to localhost:8000 with your browser!
+
+## Written By
+Shiya Luo from Autodesk, Inc.
