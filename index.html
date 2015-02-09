@@ -10,49 +10,49 @@
     <div id="viewer"></div>
 </body>
     
-    <script>
-        // change the token and urn(translated file location) before you try to run
-        // easiest is to go through steps on http://shiya.github.io/Intro-View-and-Data/
-        var token = "VzdnR3QSRDkP9I49jaw2EEXPtGD9";
-        var urn = "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6c2hpeWEtYnVja2V0MTIzNDU2Ny9yYWNfYmFzaWNfc2FtcGxlX3Byb2plY3QucnZ0";
+<script>
+    // change the token and urn(translated file location) before you try to run
+    // easiest is to go through steps on http://shiya.github.io/Intro-View-and-Data/
+    var token = "VzdnR3QSRDkP9I49jaw2EEXPtGD9";
+    var urn = "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6c2hpeWEtYnVja2V0MTIzNDU2Ny9yYWNfYmFzaWNfc2FtcGxlX3Byb2plY3QucnZ0";
 
-        function getToken() {
-            return token;
-        }
-        function loadDocument(viewer, documentId) {
-            // Find the first 3d geometry and load that.
-            Autodesk.Viewing.Document.load(documentId, function(doc) {
-            var geometryItems = [];
-            geometryItems = Autodesk.Viewing.Document.getSubItemsWithProperties(doc.getRootItem(), {
-                'type' : 'geometry',
-                'role' : '3d'
-            }, true);
+    function getToken() {
+        return token;
+    }
+    function loadDocument(viewer, documentId) {
+        // Find the first 3d geometry and load that.
+        Autodesk.Viewing.Document.load(documentId, function(doc) {
+        var geometryItems = [];
+        geometryItems = Autodesk.Viewing.Document.getSubItemsWithProperties(doc.getRootItem(), {
+            'type' : 'geometry',
+            'role' : '3d'
+        }, true);
 
-            if (geometryItems.length > 0) {
-                viewer.load(doc.getViewablePath(geometryItems[0]));
-            }
-         }, function(errorMsg) {// onErrorCallback
-            alert("Load Error: " + errorMsg);
-            });
+        if (geometryItems.length > 0) {
+            viewer.load(doc.getViewablePath(geometryItems[0]));
         }
-        
-        function initialize() {
-            var options = {
-                'document' : 'urn:' + urn,
-                'env':'AutodeskProduction',
-                'getAccessToken': getToken,
-                'refreshToken': getToken,
-                };
-            var viewerElement = document.getElementById('viewer');
-            var viewer = new Autodesk.Viewing.Viewer3D(viewerElement, {});
+     }, function(errorMsg) {// onErrorCallback
+        alert("Load Error: " + errorMsg);
+        });
+    }
+    
+    function initialize() {
+        var options = {
+            'document' : 'urn:' + urn,
+            'env':'AutodeskProduction',
+            'getAccessToken': getToken,
+            'refreshToken': getToken,
+            };
+        var viewerElement = document.getElementById('viewer');
+        var viewer = new Autodesk.Viewing.Viewer3D(viewerElement, {});
 
-            Autodesk.Viewing.Initializer(options,function() {
-                viewer.initialize();
-                loadDocument(viewer, options.document);
-            });
-        }
-        
-        initialize();
-    </script>
+        Autodesk.Viewing.Initializer(options,function() {
+            viewer.initialize();
+            loadDocument(viewer, options.document);
+        });
+    }
+    
+    initialize();
+</script>
 
 </html>
