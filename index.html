@@ -6,51 +6,53 @@
 <link rel="stylesheet" href="https://developer.api.autodesk.com/viewingservice/v1/viewers/style.css?v=v1.2.13" type="text/css">
 <script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/viewer3D.min.js?v=v1.2.13"></script>
 <script>
-    // change the token and urn(translated file location) before you try to run
-    // easiest is to go through steps on http://shiya.github.io/Intro-View-and-Data/
-    var token = "YOUR ACCESS TOKEN";
-    var urn = "YOUR BASE 64 ENCODED URN";
+  // Change the token and urn (translated file location) before running.
+  // Easiest is to go through steps on http://shiya.github.io/Intro-View-and-Data/
 
-    function getToken() {
-        return token;
-    }
-    function loadDocument(viewer, documentId) {
-        // Find the first 3d geometry and load that.
-        Autodesk.Viewing.Document.load(documentId, function(doc) {
-        var geometryItems = [];
-        geometryItems = Autodesk.Viewing.Document.getSubItemsWithProperties(doc.getRootItem(), {
-            'type' : 'geometry',
-            'role' : '3d'
-        }, true);
+  var token = "YOUR ACCESS TOKEN";
+  var urn = "YOUR BASE 64 ENCODED URN";
 
-        if (geometryItems.length > 0) {
-            viewer.load(doc.getViewablePath(geometryItems[0]));
-        }
-     }, function(errorMsg) {// onErrorCallback
-        alert("Load Error: " + errorMsg);
-        });
-    }
-    
-    function initialize() {
-        var options = {
-            'document' : 'urn:' + urn,
-            'env':'AutodeskProduction',
-            'getAccessToken': getToken,
-            'refreshToken': getToken,
-            };
-        var viewerElement = document.getElementById('viewer');
-        var viewer = new Autodesk.Viewing.Viewer3D(viewerElement, {});
+  function getToken() {
+    return token;
+  }
 
-        Autodesk.Viewing.Initializer(options,function() {
-            viewer.initialize();
-            loadDocument(viewer, options.document);
-        });
-    }
+  function loadDocument(viewer, documentId) {
+    // Find the first 3d geometry and load that.
+    Autodesk.Viewing.Document.load(documentId, function(doc) {
+      var geometryItems = Autodesk.Viewing.Document.getSubItemsWithProperties(
+        doc.getRootItem(),
+        { 'type' : 'geometry', 'role' : '3d' },
+        true);
+
+      if (geometryItems.length > 0) {
+        viewer.load(doc.getViewablePath(geometryItems[0]));
+      }
+    },
+    function(errorMsg) { // onErrorCallback
+      alert("Load Error: " + errorMsg);
+    });
+  }
+
+  function initialize() {
+    var options = {
+      'document' : 'urn:' + urn,
+      'env':'AutodeskProduction',
+      'getAccessToken': getToken,
+      'refreshToken': getToken };
+
+    var viewerElement = document.getElementById('viewer');
+    var viewer = new Autodesk.Viewing.Viewer3D(viewerElement, {});
+
+    Autodesk.Viewing.Initializer(options,function() {
+      viewer.initialize();
+      loadDocument(viewer, options.document);
+    });
+  }
 </script>
 </head>
 
 <body onload="initialize()">
-    <div id="viewer"></div>
+  <div id="viewer" style="width:50%;height:50%"></div>
 </body>
 
 </html>
